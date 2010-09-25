@@ -1,6 +1,6 @@
 This library provide support for type-safe enumerations in php.
 
-Usage:
+Usage: (@see usage.php, or unit tests for more details)
 
 	<?php
 	require_once __DIR__ . '/src/Enum.func.php';
@@ -48,3 +48,30 @@ Usage:
 	{
 	  echo "  " . $enum->getBinary() . "\n";
 	}
+	
+Output:
+
+	FruitsEnum::APPLE() == FruitsEnum::APPLE(): bool(true)
+	FruitsEnum::APPLE() == FruitsEnum::ORANGE(): bool(false)
+	FruitsEnum::APPLE() instanceof Enum: bool(true)
+	FruitsEnum::APPLE() instanceof FruitsEnum: bool(true)
+	->getName()
+	  APPLE
+	  ORANGE
+	  RASBERRY
+	  BANNANA
+	->getValue()
+	  apple
+	  orange
+	  rasberry
+	  bannana
+	->getOrdinal()
+	  1
+	  2
+	  3
+	  4
+	->getBinary()
+	  1
+	  2
+	  4
+	  8
