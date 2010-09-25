@@ -70,6 +70,26 @@ class EnumGeneratorTest extends PHPUnit_Framework_TestCase
 
   /**
    * @test
+   * @testdox ::getInstance() called with a non existent cache directory should raise an exception
+   * @expectedException InvalidArgumentException
+   */
+  public function getInstanceWithBadCacheDirRaiseError()
+  {
+    EnumGenerator::getInstance(null, null, 'bad-dir');
+  }
+
+  /**
+   * @test
+   * @testdox ::getInstance() called with a non existent template file should raise an exception
+   * @expectedException InvalidArgumentException
+   */
+  public function getInstanceWithBadTemplateRaiseError()
+  {
+    EnumGenerator::getInstance(null, 'bad-template');
+  }
+
+  /**
+   * @test
    * @testdox an instance should have a valid default templateFile
    */
   public function instanceShouldHaveValidDefaultTemplateFile()

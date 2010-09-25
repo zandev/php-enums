@@ -110,7 +110,7 @@ class EnumGenerator
   {
     if (! is_dir($dir))
     {
-      throw new Exception("The directory $dir does not exist. You have to ensure it is created before calling " . __METHOD__);
+      throw new InvalidArgumentException("The directory $dir does not exist. You have to ensure it is created before calling " . __METHOD__);
     }
     return $this->cachedClassesDir = $dir;
   }
@@ -126,7 +126,7 @@ class EnumGenerator
   {
     if (! file_exists($file))
     {
-      throw new Exception("The file $file does not exist");
+      throw new InvalidArgumentException("The file $file does not exist");
     }
     return $this->templateFile = $file;
   }
