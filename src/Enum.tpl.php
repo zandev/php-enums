@@ -16,6 +16,13 @@ class <?php echo $class ?> implements Enum
   {
     return $this->ordinal;
   }
+  
+  private $binary;
+  
+  public function getBinary()
+  {
+    return $this->binary;
+  }
 
   private $value;
 
@@ -30,6 +37,7 @@ class <?php echo $class ?> implements Enum
   {
     $this->ordinal = ++self::$instancesCount;
     $this->value = $value;
+    $this->binary = pow(2, $this->getOrdinal()-1);
   }
 
   private static $instances = array();

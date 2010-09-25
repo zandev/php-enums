@@ -8,23 +8,23 @@ require_once __DIR__ . '/../src/EnumGenerator.class.php';
  */
 class EnumTest extends EnumTestCase
 {
-  
+
   private $enumFile;
-  
+
   public function __construct()
   {
     if (! class_exists('FruitsEnum'))
     {
       EnumGenerator::setDefaultCachedClassesDir($this->tmpDir);
-      $this->enumFile = EnumGenerator::getInstance()->compil('FruitsEnum', array('apple' , 'orange' , 'rasberry'));
+      $this->enumFile = EnumGenerator::getInstance()->compil('FruitsEnum', array('apple' , 'orange' , 'rasberry', 'bannana'));
       require_once $this->enumFile;
     }
   }
-  
+
   public function __destruct()
   {
-    if(file_exists($this->enumFile))
-    {      
+    if (file_exists($this->enumFile))
+    {
       unlink($this->enumFile);
     }
   }
@@ -64,9 +64,7 @@ class EnumTest extends EnumTestCase
   public function enumHasUppcaseInstancesStaticGetters()
   {
     $ref = new ReflectionClass('FruitsEnum');
-    $this->assertTrue($ref->hasMethod('apple'));
-    $this->assertTrue($ref->hasMethod('Apple'));
-    $this->assertTrue($ref->hasMethod('APPLE'));
+    $this->assertEquals('APPLE', $ref->getMethod('apple')->getName());
   }
 
   /**
@@ -107,7 +105,7 @@ class EnumTest extends EnumTestCase
   {
     $this->assertNotEquals(FruitsEnum::APPLE(), FruitsEnum::ORANGE());
   }
-  
+
   /**
    * @test
    * @testdox the enum instances should implements Enum
@@ -115,6 +113,30 @@ class EnumTest extends EnumTestCase
   public function enumInstancesImplementsEnum()
   {
     $this->assertTrue(FruitsEnum::APPLE() instanceof Enum);
+  }
+
+  /**
+   * @test
+   * @testdox Enum::getOrdinal() return the correct ordinal
+   */
+  public function getOrdinal()
+  {
+    $this->assertEquals(1, FruitsEnum::APPLE()->getOrdinal());
+    $this->assertEquals(2, FruitsEnum::ORANGE()->getOrdinal());
+    $this->assertEquals(3, FruitsEnum::RASBERRY()->getOrdinal());
+    $this->assertEquals(4, FruitsEnum::BANNANA()->getOrdinal());
+  }
+  
+/**
+   * @test
+   * @testdox Enum::getBinary() return a pow of base 2
+   */
+  public function getBinary()
+  {
+    $this->assertEquals(1, FruitsEnum::APPLE()->getBinary());
+    $this->assertEquals(2, FruitsEnum::ORANGE()->getBinary());
+    $this->assertEquals(4, FruitsEnum::RASBERRY()->getBinary());
+    $this->assertEquals(8, FruitsEnum::BANNANA()->getBinary());
   }
 
 
