@@ -1,6 +1,12 @@
 This library provide support for type-safe enumerations in php.
 
-Usage: (@see usage.php, or unit tests for more details)
+#Version 0.1
+The library is well tested, with a 100% coverage
+
+#TODO
+Add support for parameterized value's type, because having values of different types for each instance of a given Enum is absolutely error prone.
+
+#Usage: (@see usage.php, or unit tests for more details)
 
 	<?php
 	require_once __DIR__ . '/src/Enum.func.php';
@@ -65,6 +71,11 @@ Output:
 	  orange
 	  rasberry
 	  bannana
+	->getValue() when values have been specified
+	  pig
+	  dog
+	  cat
+	  bird
 	->getOrdinal()
 	  1
 	  2
@@ -75,3 +86,4 @@ Output:
 	  2
 	  4
 	  8
+

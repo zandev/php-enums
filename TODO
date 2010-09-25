@@ -1,0 +1,1 @@
+Add support for parameterized value's type, because having values of different types for each instance of a given Enum is absolutely error prone.  
