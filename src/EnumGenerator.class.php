@@ -2,37 +2,76 @@
 
 class EnumGenerator
 {
-  
+
+  private static $defaultTemplateFile;
+
+  public static function setDefaultTemplateFile($file)
+  {
+    self::$defaultTemplateFile = $file;
+  }
+
+  public static function getDefaultTemplateFile()
+  {
+    if (! self::$defaultTemplateFile)
+    {
+      self::$defaultTemplateFile = __DIR__ . '/Enum.tpl.php';
+    }
+    return self::$defaultTemplateFile;
+  }
+
+  private static $defaultCachedClassesDir;
+
+  public static function setDefaultCachedClassesDir($dir)
+  {
+    self::$defaultCachedClassesDir = $dir;
+  }
+
+  public static function getDefaultCachedClassesDir()
+  {
+    if (! self::$defaultCachedClassesDir)
+    {
+      self::$defaultCachedClassesDir = __DIR__ . '/cache';
+    }
+    return self::$defaultCachedClassesDir;
+  }
+
   private static $contexts = array();
-  
+
+  /**
+   * 
+   * @param unknown_type $context
+   * @param unknown_type $template
+   * @param unknown_type $cache_dir
+   * @return EnumGenerator
+   */
   public static function getInstance($context = 'default', $template = null, $cache_dir = null)
   {
-    if(empty($context))
+    if (empty($context))
     {
       $context = 'default';
     }
-    if(!@self::$contexts[$context])
+    if (! @self::$contexts[$context])
     {
       self::$contexts[$context] = new self($template, $cache_dir);
     }
-    return self::$contexts[$context];    
+    return self::$contexts[$context];
   }
-  
+
   private function __construct($template = null, $cache_dir = null)
   {
-    if(empty($template))
+    if (empty($template))
     {
-      $template = __DIR__ . '/Enum.tpl.php';
+      $template = self::getDefaultTemplateFile();
     }
     $this->setTemplateFile($template);
     
-    if(empty($cache_dir))
+    if (empty($cache_dir))
     {
-      $cache_dir = __DIR__ . '/cache';
+      $cache_dir = self::getDefaultCachedClassesDir();
     }
     $this->setCachedClassesDir($cache_dir);
   }
-  
+
   public function generate($class, array $instances, $namespace = null)
   {
     $enums = array_map(function($e){
@@ -67,9 +106,9 @@ class EnumGenerator
 
   private $cachedClassesDir;
 
-  public function setCachedClassesDir($dir)
+  protected function setCachedClassesDir($dir)
   {
-    if(!is_dir($dir))
+    if (! is_dir($dir))
     {
       throw new Exception("The directory $dir does not exist. You have to ensure it is created before calling " . __METHOD__);
     }
@@ -82,16 +121,16 @@ class EnumGenerator
   }
 
   private $templateFile;
-  
-  public function setTemplateFile($file)
+
+  protected function setTemplateFile($file)
   {
-    if(!file_exists($file))
+    if (! file_exists($file))
     {
       throw new Exception("The file $file does not exist");
     }
     return $this->templateFile = $file;
   }
-  
+
   public function getTemplateFile()
   {
     return $this->templateFile;
