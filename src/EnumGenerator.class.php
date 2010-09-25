@@ -76,18 +76,35 @@ class EnumGenerator
 
   public function generate($class, array $instances, $namespace = null)
   {
-    if(empty($instances))
+    if (empty($instances))
     {
       throw new InvalidArgumentException('$instances parameter should not be empty');
     }
     
-    $enums = array_map(function($e){
-      return strtoupper($e);
-    }, $instances);
+    $isHash = count(array_filter(array_keys($instances), function($e){
+      return is_string($e);
+    })) == count($instances);
     
-    $iterator = join(", ", array_map(function($e){
-        return "self::$e()";
-      }, $enums));
+    if(!$isHash)
+    {
+      $instances = array_combine($instances, $instances);
+    }
+    
+    $enums = array();
+    foreach ($instances as $k => $v)
+    {
+      $enums[strtoupper($k)] = $v;
+    }
+    unset($k, $v);
+    
+    $iterator = array();
+    foreach ($enums as $k => $v)
+    {
+      $iterator[] = $k;
+    }
+    unset($k, $v);
+    
+    $iterator = join(", ", $iterator);
     
     $namespace = $namespace ? "namespace $namespace;\n" : "";
     
@@ -111,6 +128,12 @@ class EnumGenerator
       fclose($fh);
     }
     return $file;
+  }
+  
+  public function evaluate($class, array $instances, $namespace = null)
+  {
+    $r = $this->generate($class, $instances, $namespace);
+    eval($r);
   }
 
   private $cachedClassesDir;

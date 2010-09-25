@@ -104,5 +104,16 @@ class EnumGeneratorTest extends EnumTestCase
     require $f;
     $this->assertTrue(class_exists('OneMoreEnum'));
   }
+  
+  /**
+   * @test
+   * @testdox ->evaluate() should evaluate the generated class definition
+   */
+  public function evalShouldEvaluateClassDef()
+  {
+    EnumGenerator::getInstance()->evaluate('OnTheFly', array('apple'));
+    OnTheFly::APPLE();
+    $this->assertTrue(true);
+  }
 }
 

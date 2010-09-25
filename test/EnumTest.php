@@ -117,14 +117,14 @@ class EnumTest extends EnumTestCase
 
   /**
    * @test
-   * @testdox Enum::getValue() return the getter method's name as default value
+   * @testdox Enum::getName() return the getter method's name
    */
-  public function getValue()
+  public function getName()
   {
-    $this->assertEquals('APPLE', FruitsEnum::APPLE()->getValue());
-    $this->assertEquals('ORANGE', FruitsEnum::ORANGE()->getValue());
-    $this->assertEquals('RASBERRY', FruitsEnum::RASBERRY()->getValue());
-    $this->assertEquals('BANNANA', FruitsEnum::BANNANA()->getValue());
+    $this->assertEquals('APPLE', FruitsEnum::APPLE()->getName());
+    $this->assertEquals('ORANGE', FruitsEnum::ORANGE()->getName());
+    $this->assertEquals('RASBERRY', FruitsEnum::RASBERRY()->getName());
+    $this->assertEquals('BANNANA', FruitsEnum::BANNANA()->getName());
   }
 
   /**
@@ -151,6 +151,30 @@ class EnumTest extends EnumTestCase
     $this->assertEquals(8, FruitsEnum::BANNANA()->getBinary());
   }
 
-
+  
+  /**
+   * @test
+   * @testdox Enum::getValue() return a default value
+   */
+  public function getValueWithDefault()
+  {
+    $this->assertEquals('apple', FruitsEnum::APPLE()->getValue());
+    $this->assertEquals('orange', FruitsEnum::ORANGE()->getValue());
+    $this->assertEquals('rasberry', FruitsEnum::RASBERRY()->getValue());
+    $this->assertEquals('bannana', FruitsEnum::BANNANA()->getValue());
+  }
+  
+  /**
+   * @test
+   * @testdox Enum::getValue() return the correct value
+   */
+  public function getValueWithAssignedValues()
+  {
+    EnumGenerator::getInstance()->evaluate('EnumWithValues', array('apple' => 12 , 'orange' => 27 , 'rasberry' => 33 , 'bannana' => 401));
+    $this->assertEquals(12, EnumWithValues::APPLE()->getValue());
+    $this->assertEquals(27, EnumWithValues::ORANGE()->getValue());
+    $this->assertEquals(33, EnumWithValues::RASBERRY()->getValue());
+    $this->assertEquals(401, EnumWithValues::BANNANA()->getValue());
+  }
 }
 

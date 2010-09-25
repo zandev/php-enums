@@ -1,14 +1,28 @@
 <?php echo $namespace ?>
 class <?php echo $class ?> implements Enum
 {
-<?php foreach($enums as $enum):?>
-  private static $<?php echo $enum ?>;
+<?php foreach($enums as $name => $value):?>
+  private static $<?php echo $name ?>;
 
-  public static function <?php echo $enum ?>()
+  public static function <?php echo $name ?>()
   {
-    return self::$<?php echo $enum ?> ? self::$<?php echo $enum ?> : self::$<?php echo $enum ?> = new self("<?php echo $enum ?>");
+    return self::$<?php echo $name ?> ? self::$<?php echo $name ?> : self::$<?php echo $name ?> = new self("<?php echo $name ?>", "<?php echo $value ?>");
   }
 <?php endforeach; ?>
+
+  private $name;
+
+  public function getName()
+  {
+    return $this->name;
+  }
+  
+  private $value;
+
+  public function getValue()
+  {
+    return $this->value;
+  }
 
   private $ordinal;
 
@@ -24,20 +38,14 @@ class <?php echo $class ?> implements Enum
     return $this->binary;
   }
 
-  private $value;
-
-  public function getValue()
-  {
-    return $this->value;
-  }
-
   private static $instancesCount = 0;
 
-  private function __construct($value)
+  private function __construct($name, $value)
   {
-    $this->ordinal = ++self::$instancesCount;
+    $this->name = $name;
     $this->value = $value;
-    $this->binary = pow(2, $this->getOrdinal()-1);
+    $this->ordinal = ++self::$instancesCount;
+    $this->binary = pow(2, $this->getOrdinal() - 1);
   }
 
   private static $instances = array();
@@ -49,6 +57,6 @@ class <?php echo $class ?> implements Enum
 
   public function __toString()
   {
-    return $this->getValue();
+    return $this->getName();
   }
 }
