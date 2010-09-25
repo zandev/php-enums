@@ -1,20 +1,31 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
+require_once __DIR__ . '/EnumTestCase.class.php';
 require_once __DIR__ . '/../src/EnumGenerator.class.php';
 
 /**
  *  @backupStaticAttributes enabled
  */
-class EnumTest extends PHPUnit_Framework_TestCase
+class EnumTest extends EnumTestCase
 {
-
+  
+  private $enumFile;
+  
   public function __construct()
   {
     if (! class_exists('FruitsEnum'))
     {
-      $f = EnumGenerator::getInstance()->compil('FruitsEnum', array('apple' , 'orange' , 'rasberry'));
-      require_once $f;
+      EnumGenerator::setDefaultCachedClassesDir($this->tmpDir);
+      $this->enumFile = EnumGenerator::getInstance()->compil('FruitsEnum', array('apple' , 'orange' , 'rasberry'));
+      require_once $this->enumFile;
+    }
+  }
+  
+  public function __destruct()
+  {
+    if(file_exists($this->enumFile))
+    {      
+      unlink($this->enumFile);
     }
   }
 
@@ -87,14 +98,23 @@ class EnumTest extends PHPUnit_Framework_TestCase
   {
     $this->assertEquals(FruitsEnum::APPLE(), FruitsEnum::APPLE());
   }
-  
-/**
+
+  /**
    * @test
    * @testdox different enums instances should not be equals
    */
   public function enumInstancesShouldNotBeEquals()
   {
     $this->assertNotEquals(FruitsEnum::APPLE(), FruitsEnum::ORANGE());
+  }
+  
+  /**
+   * @test
+   * @testdox the enum instances should implements Enum
+   */
+  public function enumInstancesImplementsEnum()
+  {
+    $this->assertTrue(FruitsEnum::APPLE() instanceof Enum);
   }
 
 

@@ -1,21 +1,13 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
+require_once __DIR__ . '/EnumTestCase.class.php';
 require_once __DIR__ . '/../src/EnumGenerator.class.php';
 
 /**
  *  @backupStaticAttributes enabled
  */
-class EnumGeneratorTest extends PHPUnit_Framework_TestCase
+class EnumGeneratorTest extends EnumTestCase
 {
-
-  private $tmpDir;
-
-  public function __construct()
-  {
-    $this->tmpDir = __DIR__ . '/tmp';
-    restore_error_handler();
-  }
 
   /**
    * Prepares the environment before running a test.
@@ -23,8 +15,7 @@ class EnumGeneratorTest extends PHPUnit_Framework_TestCase
   protected function setUp()
   {
     parent::setUp();
-    `rm -rf $this->tmpDir`;
-    mkdir($this->tmpDir);
+    restore_error_handler();
     EnumGenerator::setDefaultCachedClassesDir($this->tmpDir);
   }
 
@@ -84,12 +75,34 @@ class EnumGeneratorTest extends PHPUnit_Framework_TestCase
 
   /**
    * @test
-   * @testdox ->build() return a valid filename
+   * @testdox ->compil() return a valid filename
    */
-  public function buildReturnvalidFilename()
+  public function compilReturnValidFilename()
   {
     $f = EnumGenerator::getInstance()->compil('MySecondEnum', array('apple'));
     $this->assertFileExists($f);
+  }
+  
+  /**
+   * @test
+   * @testdox ->compil() compiled file is requirable
+   */
+  public function compiledFileIsRequirable()
+  {
+    $f = EnumGenerator::getInstance()->compil('MyThirdEnum', array('apple'));
+    require $f;
+    $this->assertTrue(true);
+  }
+  
+  /**
+   * @test
+   * @testdox ->compil() compiled file is a valid class def
+   */
+  public function compiledFileIsValidClassDef()
+  {
+    $f = EnumGenerator::getInstance()->compil('OneMoreEnum', array('apple'));
+    require $f;
+    $this->assertTrue(class_exists('OneMoreEnum'));
   }
 }
 

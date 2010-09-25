@@ -1,5 +1,5 @@
 <?php echo $namespace ?>
-class <?php echo $class ?>
+class <?php echo $class ?> implements Enum
 {
 <?php foreach($enums as $enum):?>
   private static $<?php echo $enum ?>;

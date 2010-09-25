@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/Enum.interface.php';
+
 class EnumGenerator
 {
 

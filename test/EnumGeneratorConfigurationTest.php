@@ -1,21 +1,13 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
+require_once __DIR__ . '/EnumTestCase.class.php';
 require_once __DIR__ . '/../src/EnumGenerator.class.php';
 
 /**
  *  @backupStaticAttributes enabled
  */
-class EnumGeneratorConfigurationTest extends PHPUnit_Framework_TestCase
+class EnumGeneratorConfigurationTest extends EnumTestCase
 {
-
-  private $tmpDir;
-
-  public function __construct()
-  {
-    $this->tmpDir = __DIR__ . '/tmp';
-    restore_error_handler();
-  }
 
   /**
    * Prepares the environment before running a test.
@@ -23,8 +15,7 @@ class EnumGeneratorConfigurationTest extends PHPUnit_Framework_TestCase
   protected function setUp()
   {
     parent::setUp();
-    `rm -rf $this->tmpDir`;
-    mkdir($this->tmpDir);
+    restore_error_handler();
   }
 
   /**
@@ -32,7 +23,6 @@ class EnumGeneratorConfigurationTest extends PHPUnit_Framework_TestCase
    */
   protected function tearDown()
   {
-    `rm -rf $this->tmpDir`;
     parent::tearDown();
   }
 
