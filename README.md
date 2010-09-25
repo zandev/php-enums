@@ -1,7 +1,7 @@
 This library provide support for type-safe enumerations in php.
 
 #Version 0.1
-The library is well tested, with a 100% coverage
+The library is well tested, with a near 100% coverage
 
 #TODO
 Add support for parameterized value's type, because having values of different types for each instance of a given Enum is absolutely error prone.
