@@ -16,7 +16,7 @@ class EnumTest extends EnumTestCase
     if (! class_exists('FruitsEnum'))
     {
       EnumGenerator::setDefaultCachedClassesDir($this->tmpDir);
-      $this->enumFile = EnumGenerator::getInstance()->compil('FruitsEnum', array('apple' , 'orange' , 'rasberry', 'bannana'));
+      $this->enumFile = EnumGenerator::getInstance()->compil('FruitsEnum', array('apple' , 'orange' , 'rasberry' , 'bannana'));
       require_once $this->enumFile;
     }
   }
@@ -117,6 +117,18 @@ class EnumTest extends EnumTestCase
 
   /**
    * @test
+   * @testdox Enum::getValue() return the getter method's name as default value
+   */
+  public function getValue()
+  {
+    $this->assertEquals('APPLE', FruitsEnum::APPLE()->getValue());
+    $this->assertEquals('ORANGE', FruitsEnum::ORANGE()->getValue());
+    $this->assertEquals('RASBERRY', FruitsEnum::RASBERRY()->getValue());
+    $this->assertEquals('BANNANA', FruitsEnum::BANNANA()->getValue());
+  }
+
+  /**
+   * @test
    * @testdox Enum::getOrdinal() return the correct ordinal
    */
   public function getOrdinal()
@@ -126,8 +138,8 @@ class EnumTest extends EnumTestCase
     $this->assertEquals(3, FruitsEnum::RASBERRY()->getOrdinal());
     $this->assertEquals(4, FruitsEnum::BANNANA()->getOrdinal());
   }
-  
-/**
+
+  /**
    * @test
    * @testdox Enum::getBinary() return a pow of base 2
    */

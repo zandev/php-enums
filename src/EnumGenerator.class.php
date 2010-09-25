@@ -87,7 +87,7 @@ class EnumGenerator
     
     $iterator = join(", ", array_map(function($e){
         return "self::$e()";
-      }, $instances));
+      }, $enums));
     
     $namespace = $namespace ? "namespace $namespace;\n" : "";
     
