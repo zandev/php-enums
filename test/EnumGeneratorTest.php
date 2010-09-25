@@ -13,7 +13,6 @@ class EnumGeneratorTest extends PHPUnit_Framework_TestCase
 
   public function __construct()
   {
-    `rm -rf $this->tmpDir`;
     $this->tmpDir = __DIR__ . '/tmp';
     restore_error_handler();
   }
@@ -24,7 +23,9 @@ class EnumGeneratorTest extends PHPUnit_Framework_TestCase
   protected function setUp()
   {
     parent::setUp();
+    `rm -rf $this->tmpDir`;
     mkdir($this->tmpDir);
+    EnumGenerator::setDefaultCachedClassesDir($this->tmpDir);
   }
 
   /**

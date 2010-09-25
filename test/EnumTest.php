@@ -13,7 +13,7 @@ class EnumTest extends PHPUnit_Framework_TestCase
   {
     if (! class_exists('FruitsEnum'))
     {
-      $f = EnumGenerator::getInstance()->build('FruitsEnum', array('apple' , 'orange' , 'rasberry'));
+      $f = EnumGenerator::getInstance()->compil('FruitsEnum', array('apple' , 'orange' , 'rasberry'));
       require_once $f;
     }
   }
