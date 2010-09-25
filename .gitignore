@@ -1,4 +1,4 @@
-src/cache
+cache/*
 src/cache/*
 .buildpath
 .project

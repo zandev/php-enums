@@ -29,8 +29,20 @@
  * 
  */
 
-function Enum($class, $instances, $namespace = null)
+if (! class_exists('EnumGenerator'))
 {
-  return EnumGenerator::getInstance()->compil($class, $instances, $namespace = null);
+  require_once __DIR__ . '/EnumGenerator.class.php';
+}
+
+function Enum($class, $instances, $namespace = null, $cache = false)
+{
+  if ($cache)
+  {
+    require_once EnumGenerator::getInstance()->compil($class, $instances, $namespace = null);
+  } 
+  else
+  {
+    EnumGenerator::getInstance()->evaluate($class, $instances, $namespace = null);
+  }
 }
 
