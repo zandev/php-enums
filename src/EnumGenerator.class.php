@@ -50,7 +50,7 @@ class EnumGenerator
     {
       $context = 'default';
     }
-    if (! @self::$contexts[$context])
+    if (! isset(self::$contexts[$context]))
     {
       self::$contexts[$context] = new self($template, $cache_dir);
     }
@@ -74,12 +74,17 @@ class EnumGenerator
 
   public function generate($class, array $instances, $namespace = null)
   {
+    if(empty($instances))
+    {
+      throw new InvalidArgumentException('$instances parameter should not be empty');
+    }
+    
     $enums = array_map(function($e){
       return strtoupper($e);
     }, $instances);
     
     $iterator = join(", ", array_map(function($e){
-        return "$this->e()";
+        return "self::$e()";
       }, $instances));
     
     $namespace = $namespace ? "namespace $namespace;\n" : "";

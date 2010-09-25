@@ -13,7 +13,9 @@ class EnumGeneratorTest extends PHPUnit_Framework_TestCase
 
   public function __construct()
   {
+    `rm -rf $this->tmpDir`;
     $this->tmpDir = __DIR__ . '/tmp';
+    restore_error_handler();
   }
 
   /**
@@ -130,6 +132,114 @@ class EnumGeneratorTest extends PHPUnit_Framework_TestCase
     mkdir($d);
     EnumGenerator::setDefaultCachedClassesDir($d);
     $this->assertEquals($d, EnumGenerator::getInstance()->getCachedClassesDir());
+  }
+
+  /**
+   * @test
+   * @testdox ->generate() should return a string
+   */
+  public function generateReturnString()
+  {
+    $r = EnumGenerator::getInstance()->generate('dummy', array('orange'));
+    $this->assertTrue(is_string($r));
+  }
+
+  /**
+   * @test
+   * @testdox ->generate() should return a valid php content
+   */
+  public function generateValidPhpContent()
+  {
+    set_error_handler(function($errno, $errstr, $errfile, $errline)use(&$hasError){
+      throw new PHPUnit_Framework_Error($errstr);
+    });
+    $r = EnumGenerator::getInstance()->generate('dummy', array('apple'));
+    eval($r);
+    $this->assertTrue(true);
+  }
+
+  /**
+   * @test
+   * @testdox ->generate() $instances parameter should be a non empty array
+   * @expectedException InvalidArgumentException
+   */
+  public function generateInstancesParameterShouldNotBeEmpty()
+  {
+    EnumGenerator::getInstance()->generate('MyEnum', array());
+  }
+
+  /**
+   * @test
+   * @testdox ->generate() should return a valid class definition
+   */
+  public function generateValidClassDef()
+  {
+    $r = EnumGenerator::getInstance()->generate('MyFirstEnum', array('apple'));
+    eval($r);
+    $this->assertTrue(class_exists('MyFirstEnum'));
+  }
+
+  /**
+   * @test
+   * @testdox the generated enum class should not be be instanciable
+   */
+  public function enumIsNotInstanciable()
+  {
+    $r = EnumGenerator::getInstance()->generate('MySecondEnum', array('apple'));
+    eval($r);
+    $ref = new ReflectionClass('MySecondEnum');
+    $this->assertFalse($ref->getConstructor()->isPublic());
+  }
+
+  /**
+   * @test
+   * @testdox the generated instances static getters should be uppcase
+   */
+  public function enumHasUppcaseInstancesStaticGetters()
+  {
+    $r = EnumGenerator::getInstance()->generate('MyThirdEnum', array('apple'));
+    eval($r);
+    $ref = new ReflectionClass('MyThirdEnum');
+    $this->assertTrue($ref->hasMethod('apple'));
+    $this->assertTrue($ref->hasMethod('Apple'));
+    $this->assertTrue($ref->hasMethod('APPLE'));
+  }
+
+  /**
+   * @test
+   * @testdox the generated enum class should have static getters for each enum instance
+   */
+  public function enumHasInstancesStaticGetters()
+  {
+    $r = EnumGenerator::getInstance()->generate('Fruits', array('apple' , 'orange' , 'rasberry'));
+    eval($r);
+    $ref = new ReflectionClass('Fruits');
+    $this->assertTrue($ref->getMethod('APPLE')->isStatic());
+    $this->assertTrue($ref->getMethod('ORANGE')->isStatic());
+    $this->assertTrue($ref->getMethod('RASBERRY')->isStatic());
+  }
+
+  /**
+   * @test
+   * @testdox the generated instances static getters should return a self instance
+   */
+  public function enumInstancesStaticGettersIsTypeOfSelf()
+  {
+    $r = EnumGenerator::getInstance()->generate('OneMoreEnum', array('apple'));
+    eval($r);
+    $this->assertTrue(OneMoreEnum::APPLE() instanceof OneMoreEnum);
+  }
+  
+  /**
+   * @test
+   * @testdox the generated instances static getters should return a singleton
+   */
+  public function enumInstancesStaticGettersReturnSingleton()
+  {
+    $r = EnumGenerator::getInstance()->generate('OneMoreFruitEnum', array('apple', 'orange'));
+    eval($r);
+    $this->assertEquals(OneMoreFruitEnum::APPLE(), OneMoreFruitEnum::APPLE());
+    $this->assertNotEquals(OneMoreFruitEnum::APPLE(), OneMoreFruitEnum::ORANGE());
   }
 
 
