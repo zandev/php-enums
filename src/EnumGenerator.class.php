@@ -99,14 +99,16 @@ class EnumGenerator
     return $content;
   }
 
-  public function build($class, array $instances, $namespace = null)
+  public function compil($class, array $instances, $namespace = null)
   {
-    if (! file_exists($file = $this->getCachedClassesDir() . "{$class}Enum.class.php"))
+    $file = $this->getCachedClassesDir() . "/{$class}.enum.php";
+    if (! file_exists($file))
     {
       $fh = fopen($file, 'w');
       fwrite($fh, '<?php' . "\n" . $this->generate($class, $instances, $namespace));
       fclose($fh);
     }
+    return $file;
   }
 
   private $cachedClassesDir;
