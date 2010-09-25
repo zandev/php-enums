@@ -93,14 +93,14 @@ class EnumGenerator
     $enums = array();
     foreach ($instances as $k => $v)
     {
-      $enums[strtoupper($k)] = $v;
+      $enums[preg_replace('/[^A-Z]/', '_', strtoupper($k))] = $v;
     }
     unset($k, $v);
     
     $iterator = array();
     foreach ($enums as $k => $v)
     {
-      $iterator[] = $k;
+      $iterator[] = "self::$k()";
     }
     unset($k, $v);
     

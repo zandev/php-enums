@@ -115,5 +115,15 @@ class EnumGeneratorTest extends EnumTestCase
     OnTheFly::APPLE();
     $this->assertTrue(true);
   }
+  
+/**
+   * @test
+   * @testdox ->generate() $instances names should be sanitized
+   */
+  public function generateInstancesParameterShouldTrim()
+  {
+    EnumGenerator::getInstance()->evaluate('TrimEnum', array('an apple'));
+    $this->assertEquals('an apple', TrimEnum::AN_APPLE()->getValue());
+  }
 }
 

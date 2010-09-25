@@ -163,7 +163,7 @@ class EnumTest extends EnumTestCase
     $this->assertEquals('rasberry', FruitsEnum::RASBERRY()->getValue());
     $this->assertEquals('bannana', FruitsEnum::BANNANA()->getValue());
   }
-  
+
   /**
    * @test
    * @testdox Enum::getValue() return the correct value
@@ -175,6 +175,27 @@ class EnumTest extends EnumTestCase
     $this->assertEquals(27, EnumWithValues::ORANGE()->getValue());
     $this->assertEquals(33, EnumWithValues::RASBERRY()->getValue());
     $this->assertEquals(401, EnumWithValues::BANNANA()->getValue());
+  }
+
+  /**
+   * @test
+   * @testdox Enum::iterator() returned array has the correct count
+   */
+  public function iteratorCountIsOk()
+  {
+    $this->assertEquals(4, count(FruitsEnum::iterator()));
+  }
+
+  /**
+   * @test
+   * @testdox Enum::iterator() return all instances
+   */
+  public function iteratorReturnAllInstances()
+  {
+    $this->assertContains(FruitsEnum::APPLE(), FruitsEnum::iterator());
+    $this->assertContains(FruitsEnum::ORANGE(), FruitsEnum::iterator());
+    $this->assertContains(FruitsEnum::RASBERRY(), FruitsEnum::iterator());
+    $this->assertContains(FruitsEnum::BANNANA(), FruitsEnum::iterator());
   }
 }
 
