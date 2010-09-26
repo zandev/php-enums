@@ -7,7 +7,7 @@ EnumGenerator::setDefaultCachedClassesDir(__DIR__ . '/cache');
 Enum('FruitsEnum', array('apple' , 'orange' , 'rasberry' , 'bannana'));
 
 //Class definition is cached in the cache directory for later usage:
-Enum('CachedFruitsEnum', array('apple' => 'pig' , 'orange' => 'dog' , 'rasberry' => 'cat' , 'bannana' => 'bird'), '\my\company\name\space', true);
+Enum('CachedFruitsEnum', array('apple' => 'pig' , 'orange' => 'dog' , 'rasberry' => 'cat' , 'bannana' => 'bird'), 'my\company\name\space', true);
 
 echo 'FruitsEnum::APPLE() == FruitsEnum::APPLE(): ';
 var_dump(FruitsEnum::APPLE() == FruitsEnum::APPLE()) . "\n";
@@ -34,19 +34,19 @@ foreach (FruitsEnum::iterator() as $enum)
 }
 
 echo "->getValue() when values have been specified\n";
-foreach (CachedFruitsEnum::iterator() as $enum)
+foreach (my\company\name\space\CachedFruitsEnum::iterator() as $enum)
 {
   echo "  " . $enum->getValue() . "\n";
 }
 
 echo "->getOrdinal()\n";
-foreach (CachedFruitsEnum::iterator() as $enum)
+foreach (my\company\name\space\CachedFruitsEnum::iterator() as $enum)
 {
   echo "  " . $enum->getOrdinal() . "\n";
 }
 
 echo "->getBinary()\n";
-foreach (CachedFruitsEnum::iterator() as $enum)
+foreach (my\company\name\space\CachedFruitsEnum::iterator() as $enum)
 {
   echo "  " . $enum->getBinary() . "\n";
 }

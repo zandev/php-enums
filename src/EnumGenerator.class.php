@@ -135,7 +135,7 @@ class EnumGenerator
     
     $iterator = join(", ", $iterator);
     
-    $namespace = $namespace ? "namespace $namespace;\n" : "";
+    $namespace = $namespace ? "namespace $namespace;\n" : null;
     
     ob_start();
     

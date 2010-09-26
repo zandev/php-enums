@@ -38,11 +38,11 @@ function Enum($class, $instances, $namespace = null, $cache = false)
 {
   if ($cache)
   {
-    require_once EnumGenerator::getInstance()->compil($class, $instances, $namespace = null);
+    require_once EnumGenerator::getInstance()->compil($class, $instances, $namespace);
   } 
   else
   {
-    EnumGenerator::getInstance()->evaluate($class, $instances, $namespace = null);
+    EnumGenerator::getInstance()->evaluate($class, $instances, $namespace);
   }
 }
 

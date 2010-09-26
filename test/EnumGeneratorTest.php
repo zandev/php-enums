@@ -75,6 +75,28 @@ class EnumGeneratorTest extends EnumTestCase
 
   /**
    * @test
+   * @testdox ->generate() should return a valid class definition when a simple namespace is provided
+   */
+  public function generateValidClassDefWithSimpleNamesapce()
+  {
+    $r = EnumGenerator::getInstance()->generate('MyFirstEnumWithNamespace', array('apple'), 'zanshine');
+    eval($r);
+    $this->assertTrue(class_exists('\zanshine\MyFirstEnumWithNamespace'));
+  }
+
+  /**
+   * @test
+   * @testdox ->generate() should return a valid class definition when a deep namespace is provided
+   */
+  public function generateValidClassDefWithDeepNamesapce()
+  {
+    $r = EnumGenerator::getInstance()->generate('MySecondEnumWithNamespace', array('apple'), 'com\zanshine');
+    eval($r);
+    $this->assertTrue(class_exists('\com\zanshine\MySecondEnumWithNamespace'));
+  }
+
+  /**
+   * @test
    * @testdox ->compil() return a valid filename
    */
   public function compilReturnValidFilename()
@@ -82,7 +104,7 @@ class EnumGeneratorTest extends EnumTestCase
     $f = EnumGenerator::getInstance()->compil('MySecondEnum', array('apple'));
     $this->assertFileExists($f);
   }
-  
+
   /**
    * @test
    * @testdox ->compil() compiled file is requirable
@@ -93,7 +115,7 @@ class EnumGeneratorTest extends EnumTestCase
     require $f;
     $this->assertTrue(true);
   }
-  
+
   /**
    * @test
    * @testdox ->compil() compiled file is a valid class def
@@ -104,7 +126,7 @@ class EnumGeneratorTest extends EnumTestCase
     require $f;
     $this->assertTrue(class_exists('OneMoreEnum'));
   }
-  
+
   /**
    * @test
    * @testdox ->evaluate() should evaluate the generated class definition
@@ -115,8 +137,8 @@ class EnumGeneratorTest extends EnumTestCase
     OnTheFly::APPLE();
     $this->assertTrue(true);
   }
-  
-/**
+
+  /**
    * @test
    * @testdox ->generate() $instances names should be sanitized
    */
