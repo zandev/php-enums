@@ -30,7 +30,7 @@
  */
 ?>
 <?php echo $namespace ?>
-class <?php echo $class ?> implements <?php if($namespace):?>\<?php endif;?>Enum
+final class <?php echo $class ?> implements <?php if($namespace):?>\<?php endif;?>Enum
 {
 <?php foreach($enums as $name => $value):?>
   private static $<?php echo $name ?>;
