@@ -1,4 +1,10 @@
-This library provide support for type-safe enumerations in php.
+Here is a library for handling type-safe enumerations in php:
+
+This library handle classes generation, classes caching and it implements the Type Safe Enumeration design pattern, with several helper methods for dealing with enums, like retrieving an ordinal for enums sorting, or retrieving a binary value, for enums combinations.
+
+The generated code use a plain old php template file, which is also configurable, so you can provide your own template.
+
+It is full test covered with phpunit.
 
 #Version 0.1
 The library is well tested, with a near 100% coverage

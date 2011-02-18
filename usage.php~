@@ -31,7 +31,7 @@ foreach (array('FruitsEnum', 'my\company\name\space\CachedFruitsEnum') as $class
 {
   echo "class: $class\n";
   $r = new ReflectionClass($class);
-  echo 'File: ' . $r->getFileName() . "\n";
+  echo 'File: ' . $r->getFileName();
 }
 
 echo "\n";
